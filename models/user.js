@@ -1,53 +1,55 @@
-var mongoose = require("mongoose")
-const crypto = require("crypto")
+var mongoose = require("mongoose");
+const crypto = require("crypto");
 var uuid = require('uuid')
-const bcrypt = require('bcryptjs')
-const {v1:uuidv1} = require("uuid")
-var Schema = mongoose.Schema
+const { v1:uuidv1 } = require('uuid')
 
-var userSchema = new Schema({
-    firstName:{
-        type: String,
-        required: true,
-        maxlength:32,
-        trim: true
+var userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      maxlength: 32,
+      trim: true
     },
-    lastName:{
-        type: String,
-        maxlength:32,
-        trim: true
+    lastname: {
+      type: String,
+      maxlength: 32,
+      trim: true
     },
-    email:{
-        type: String,
-        required: true,
-        trim: true,
-        unique:true
+    email: {
+      type: String,
+      trim: true,
+      required: true,
+      unique: true
     },
-    userInfo:{
-        type:String,
-        trim: true
+    userinfo: {
+      type: String,
+      trim: true
     },
-    encry_password:{
-        type:String,
-        required:true
+    encry_password: {
+      type: String,
+      required: true
     },
-    salt:String,
-    role:{
-        type:Number,
-        default:0
+    salt: {
+      type:String,
     },
-    purchases:{
-        type: Array,
-        default:[]
+    role: {
+      type: Number,
+      default: 0
+    },
+    purchases: {
+      type: Array,
+      default: []
     }
-}, 
-{timestamps : true}
+  },
+  { timestamps: true }
 );
+
 userSchema
   .virtual("password")
   .set(function(password) {
     this._password = password;
-    this.salt = uuidv1();
+    this.salt = uuid.v1();
     this.encry_password = this.securePassword(password);
   })
   .get(function() {
@@ -56,6 +58,7 @@ userSchema
 
 userSchema.methods = {
   autheticate: function(plainpassword) {
+    console.log(this.salt)
     return this.securePassword(plainpassword) === this.encry_password;
   },
 
@@ -72,5 +75,4 @@ userSchema.methods = {
   }
 };
 
-
-module.exports = mongoose.model("User", userSchema)
+module.exports = mongoose.model("User", userSchema);

@@ -24,7 +24,7 @@ router.post(
 
 router.get("/signout", signout);
 router.get("/testRoute", isSignedIn, (req, res)=>{
-  res.send("A protected Route")
+  res.json(req.auth)
 })
 
 module.exports = router;
