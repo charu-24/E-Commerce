@@ -5,13 +5,13 @@ const { v1:uuidv1 } = require('uuid')
 
 var userSchema = new mongoose.Schema(
   {
-    name: {
+    firstName: {
       type: String,
       required: true,
       maxlength: 32,
       trim: true
     },
-    lastname: {
+    lastName: {
       type: String,
       maxlength: 32,
       trim: true
@@ -50,7 +50,7 @@ userSchema
   .set(function(password) {
     this._password = password;
     this.salt = uuid.v1();
-    this._password = this.securePassword(password);
+    this.encry_password = this.securePassword(password);
   })
   .get(function() {
     return this._password;
@@ -58,7 +58,7 @@ userSchema
 
 userSchema.methods = {
   autheticate: function(plainpassword) {
-    console.log(this._password)
+    console.log(this.salt)
     return this.securePassword(plainpassword) === this.encry_password;
   },
 
@@ -66,7 +66,7 @@ userSchema.methods = {
     if (!plainpassword) return "";
     try {
       return crypto
-        .createHmac("sha256", uuid.v1())
+        .createHmac("sha256", this.salt)
         .update(plainpassword)
         .digest("hex");
     } catch (err) {
