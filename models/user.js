@@ -50,7 +50,7 @@ userSchema
   .set(function(password) {
     this._password = password;
     this.salt = uuid.v1();
-    this.encry_password = this.securePassword(password);
+    this._password = this.securePassword(password);
   })
   .get(function() {
     return this._password;
@@ -58,7 +58,7 @@ userSchema
 
 userSchema.methods = {
   autheticate: function(plainpassword) {
-    console.log(this.salt)
+    console.log(this._password)
     return this.securePassword(plainpassword) === this.encry_password;
   },
 
@@ -66,7 +66,7 @@ userSchema.methods = {
     if (!plainpassword) return "";
     try {
       return crypto
-        .createHmac("sha256", this.salt)
+        .createHmac("sha256", uuid.v1())
         .update(plainpassword)
         .digest("hex");
     } catch (err) {

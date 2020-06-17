@@ -16,3 +16,5 @@ exports.getUser = (req, res) => {
     req.profile.encry_password = undefined
     return res.json(req.profile)
 }
+
+
