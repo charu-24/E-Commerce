@@ -1,6 +1,5 @@
-import { mongo } from "mongoose"
 
-const mongoose = requir("mongoose")
+const mongoose = require("mongoose")
 
 const categorySchema = mongoose.Schema({
     name:{
