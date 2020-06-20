@@ -26,8 +26,8 @@ exports.createProduct = (req, res) =>{
         }
 
         //destructuring the fields
-        const { name, description, category, price, stock} = fields
-        if(!name || !description || !category || !price || !stock){
+        const { name, description, price, stock, photo, category} = fields
+        if(!name || !description ||  !price || !stock){
             return res.status(400).json({
                 error: "All fields are required"
             })
@@ -42,9 +42,10 @@ exports.createProduct = (req, res) =>{
                     error: "File is too big!"
                 })
             }
-
+            product.photo.data = fs.readFileSync(files.photo.path);
+            product.photo.contentType = files.photo.type;
         }
-
+        console.log(product.photo)
         product.save((err, product) => {
             if(err){
                 return res.status(400).json({
@@ -54,4 +55,17 @@ exports.createProduct = (req, res) =>{
             res.json({product})
         })
     })
+}
+
+exports.getProduct = (req, res) => {
+    req.product.photo = undefined;
+    return res.json(req.product)
+}
+
+exports.photo = (req, res, next) => {
+    if(req.product.photo.data){
+        res.set("Content-type", req.product.photo.contentType)
+        return res.send(req.product.photo.data)
+    }
+    next()
 }
