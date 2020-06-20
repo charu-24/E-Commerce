@@ -8,7 +8,7 @@ const {
 
 const { getUserById} = require('../controllers/user')
 
-const { getProductById, createProduct} = require('../controllers/product')
+const { getProductById, createProduct, getProduct, photo} = require('../controllers/product')
 
 const {
     isSignedIn,
@@ -22,6 +22,10 @@ router.param("productId", getProductById)
 
 //create product
 router.post("/product/create/:userId", isSignedIn, isAuthenticated, isAdmin, createProduct)
+
+//get
+router.get("/product/:productId", getProduct)
+router.get("/product/photo/:productId", photo)
 
 
 
