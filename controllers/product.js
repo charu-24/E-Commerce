@@ -69,3 +69,31 @@ exports.photo = (req, res, next) => {
     }
     next()
 }
+
+exports.updateProduct = (req, res) =>{
+    const product = req.product;
+    product.name = req.body.name;
+
+    product.save((err, updateProduct) => {
+        if(err){
+            return res.status(400).json({
+                error: "Not able to save category in DB"
+            })
+        }  
+        res.json(updateProduct)
+    })
+}
+
+exports.deleteProduct = (req, res) => {
+    let product = req.product
+    product.remove((err, deletedProduct) => {
+        if(err){
+            return res.status(400).json({
+                error: "Not able to Remove"
+            })
+        }  
+        res.json({
+            message: "deleted"
+        })
+    })
+}
