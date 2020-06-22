@@ -8,7 +8,7 @@ const {
 
 const { getUserById} = require('../controllers/user')
 
-const { getProductById, createProduct, getProduct, photo} = require('../controllers/product')
+const { getProductById, createProduct, getProduct, photo, updateProduct, deleteProduct, getAllProduct, getAllUniqueCategories} = require('../controllers/product')
 
 const {
     isSignedIn,
@@ -28,10 +28,16 @@ router.get("/product/:productId", getProduct)
 router.get("/product/photo/:productId", photo)
 
 //update
-router.put('/product/:userId/:productId', updateProduct)
+router.put('/product/:productId/:userId',isSignedIn, isAuthenticated, isAdmin, updateProduct)
 
 //delete
-router.delete('/product/:productId/:userId', isSignedIn, isAuthenticated, isAdmin)
+router.delete('/product/:productId/:userId', isSignedIn, isAuthenticated, isAdmin, deleteProduct)
+
+//get all product
+router.get('/products',isSignedIn, isAuthenticated,
+isAdmin, getAllProduct)
 
 
+//get distinct categories
+router.get('/product/categories', getAllUniqueCategories)
 module.exports = router

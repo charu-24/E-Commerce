@@ -71,8 +71,43 @@ exports.photo = (req, res, next) => {
 }
 
 exports.updateProduct = (req, res) =>{
-    const product = req.product;
-    product.name = req.body.name;
+    let form = new formidable.IncomingForm();
+    form.keepExtensions = true;
+    form.parse(req, (err, fields, file) => {
+        if(err){
+            return res.status(400).json({
+                error: "problem with the image"
+            })
+        }
+    
+
+        let product = req.product
+
+        //update
+        product = _.extend(product, fields)
+
+
+        //handle file
+        if(files.photo){
+            if(files.photo.size> 3000000){
+                return res.status(400).json({
+                    error: "File is too big!"
+                })
+            }
+            product.photo.data = fs.readFileSync(files.photo.path);
+            product.photo.contentType = files.photo.type;
+        }
+        
+        product.save((err, product) => {
+            if(err){
+                return res.status(400).json({
+                    error: "updation failed"
+                })
+            }
+            res.json({product})
+        
+    })
+    })
 
     product.save((err, updateProduct) => {
         if(err){
@@ -95,5 +130,59 @@ exports.deleteProduct = (req, res) => {
         res.json({
             message: "deleted"
         })
+    })
+}
+
+
+//get all products
+exports.getAllProduct = (req, res) =>{
+    let limit = req.query.limit ? parseInt(req.query.limit) : 8
+
+    let sortBy = req.query.sortBy ? req.query.sortBy : "_id"
+
+    
+    Product.find()
+    .select("-photo")
+    .sort([[sortBy, "asc"]])
+    .limit(limit)
+    .exec((err, products) =>{
+        if(err){
+            return res.status(400).json({
+                error: "No Product Found"
+            })
+        }
+        res.json(products)
+    })
+}
+
+exports.updateStock = (req, res, next) =>{
+    let myOperations = req.body.order.products.map(prod => {
+        return{
+            updateOne : {
+                filter: {_id: prod._id},
+                update : {$inc: { stock: -prod.count, sold: +prod.count}}
+            }
+        }
+    })
+    Product.bulkWrite(myOperations, {}, (err, product) =>{
+        if(err){
+            return res.status(400).json({
+                error: "Bulk Write Operation Failed"
+            })
+        }
+        res.json(product)
+    })
+}
+
+//getAllUniqueCategories
+
+exports.getAllUniqueCategories = (req, res) => {
+    Product.distinct("category", {}, (err, category) => {
+        if(err){
+            return res.status(400).json({
+                error: "No category FOund"
+            })
+        }
+        res.json(category)
     })
 }
