@@ -27,6 +27,11 @@ router.post("/product/create/:userId", isSignedIn, isAuthenticated, isAdmin, cre
 router.get("/product/:productId", getProduct)
 router.get("/product/photo/:productId", photo)
 
+//update
+router.put('/product/:userId/:productId', updateProduct)
+
+//delete
+router.delete('/product/:productId/:userId', isSignedIn, isAuthenticated, isAdmin)
 
 
 module.exports = router
