@@ -10,18 +10,18 @@ const Base = ({
     
     <div>
         <Menu />
-        <div className="container-fluid">
+        <div className="container-fluid p-4">
             <div className="jumbbotron bg-dark text-white text-center">
-                <h2 className="display-4">{title}</h2>
-                <p className="lead">{description}</p>
+                <h2 className="display-4 p-2">{title}</h2>
+                <p className="lead-2 p-(-0)">{description}</p>
             
             </div>
             <div className={className}>{children}</div>
         </div>
-        <footer className="footer bg-dark mt-auto py-3">
-            <div className="container-fluid bg-success text-white text-center">
-                <h4>If u got any questions feel free to reach out..</h4>
-                <button className="btn btn-lg btn-warning">Contact Us</button>
+        <footer className="footer bg-dark mt-auto py-2">
+            <div className="container-fluid bg-success text-white text-center p-3">
+                <h6>If u got any questions feel free to reach out..</h6>
+                <button className="btn  btn-warning p-2">Contact Us</button>
             
             </div>
             <div className="container">
