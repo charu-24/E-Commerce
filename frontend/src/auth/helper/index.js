@@ -1,4 +1,4 @@
-import {API} from "../../backend"
+import {API} from "../../user/backend"
 
 export const signup = user => {
     return fetch(`${API}/signup`, {
@@ -39,16 +39,17 @@ export const authenticate = (data, next) =>{
 }
 
 //signout
-export const signup = user => {
+export const signout = user => {
     if( typeof window !== "undefined"){
         localStorage.removeItem("jwt")
-        next()
+        
 
         return fetch(`${API}/signout`, {
             method: "GET"
         })
         .then(response => console.log("successful signout"))
         .catch(err => console.log(err))
+
     }
 }
 
