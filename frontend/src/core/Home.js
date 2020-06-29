@@ -1,6 +1,6 @@
 import React from 'react'
 import "../styles.css"
-import { API } from "../user/backend"
+import { API } from "../backend"
 import Base from "../core/Base"
 export default function Home() {
     console.log("API IS", API)
