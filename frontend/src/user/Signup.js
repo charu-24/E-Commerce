@@ -1,7 +1,7 @@
-import React, { userState, useState } from "react"
+import React, { useState } from "react"
 import Base from "../core/Base"
 import { Link } from "react-router-dom"
-import { signup } from "../auth/helper"
+import { signup } from "../auth/helper/index"
 
 const Signup = () => {
     
@@ -20,14 +20,16 @@ const handleChange = name => event => {
 }
 
 const onSubmit = event =>{
-    event.preventDefault()
+    event.preventDefault();
     setValues({...values, error:false})
     signup({name, email, password})
-    .then(data => {
-        if(data.error){
-            setValues({...values, error:data.error, success: false})
+    
+    .then(event => {
+        if(error){
+            setValues({...values, error:error, success: false})
         }
         else{
+            console.log(values)
             setValues({
                 ...values,
                 name:"",
@@ -36,15 +38,18 @@ const onSubmit = event =>{
                 error:"",
                 success: true
             })
+            console.log(values)
         }
+       
+       
     })
-    .catch(console.log("Error"))
+    .catch((error) => console.log(error))
 }
 
     const signupform = () => {
         return (
             <div className="row">
-                <div className="col-md-6 offset-sm-3            text-left">
+                <div className="col-md-6 offset-sm-3 text-left">
                     <form>
                         <div 
                         
@@ -76,10 +81,12 @@ const onSubmit = event =>{
                             onChange = {handleChange("password")}
                             type="password" />
                         </div>
-                        <button className="btn btn-success btn-block">Signup</button>
+                        <button 
+                        onClick={onSubmit}
+                        className="btn btn-success btn-block">Signup</button>
                     
                     </form>
-                    <p className="text-white text-center">hey</p>
+                    
                 </div>
         
             </div>
@@ -91,6 +98,7 @@ const onSubmit = event =>{
        
             
             {signupform()}
+            <p className="text-white text-center">{JSON.stringify(values)}</p>
         
         </Base>
     )
