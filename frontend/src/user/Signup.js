@@ -1,19 +1,19 @@
-import React, { userState } from "react"
+import React, { userState, useState } from "react"
 import Base from "../core/Base"
 import { Link } from "react-router-dom"
 import { signup } from "../auth/helper"
 
 const Signup = () => {
     
-    const [values, setValues] = useStates({
-        name:"",
-        email:"",
-        password:"",
-        error:"",
-        success: false
-    })
+const [values, setValues] = useState({
+    name:"",
+    email: "",
+    password:"",
+    error:"",
+    success: false
+})
 
-const { name, email, password, error, success} = values
+const { name, email, password, error, success} =values
 
 const handleChange = name => event => {
     setValues({...values, error:false, [name]: event.target.value})
