@@ -1,6 +1,8 @@
 import { API } from "../../backend";
 
 export const signup = user => {
+
+  console.log(`${API}`)
   return fetch(`${API}/signup`, {
     method: "POST",
     headers: {
@@ -9,14 +11,17 @@ export const signup = user => {
     },
     body: JSON.stringify(user)
   })
-    .then(response => {
-      console.log(response)
-      return response.json();
-    })
+  .then(res => res.text()) 
+  .then(text => console.log(text))
+    // .then(response => {
+    //   console.log(response.text())
+    //   return response.text();
+    // })
     .catch(err => console.log(err));
 };
 
 export const signin = user => {
+  console.log(`${API}`)
   return fetch(`${API}/signin`, {
     method: "POST",
     headers: {

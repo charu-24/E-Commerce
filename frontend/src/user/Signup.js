@@ -6,14 +6,14 @@ import { signup } from "../auth/helper/index"
 const Signup = () => {
     
 const [values, setValues] = useState({
-    name:"",
+    firstName:"",
     email: "",
-    password:"",
+    encry_password:"",
     error:"",
     success: false
 })
 
-const { name, email, password, error, success} =values
+const { firstName, email, encry_password, error, success} = values
 
 const handleChange = name => event => {
     setValues({...values, error:false, [name]: event.target.value})
@@ -22,23 +22,24 @@ const handleChange = name => event => {
 const onSubmit = event =>{
     event.preventDefault();
     setValues({...values, error:false})
-    signup({name, email, password})
-    
-    .then(event => {
-        if(error){
-            setValues({...values, error:error, success: false})
+    signup({firstName, email, encry_password})
+   
+    .then(data => {
+        if(data){
+            setValues({...values, error:data.error, success: false})
+            console.log("in error")
         }
         else{
-            console.log(values)
+            console.log(data)
             setValues({
                 ...values,
-                name:"",
+                firstName:"",
                 email:"",
-                password:"",
+                encry_password:"",
                 error:"",
                 success: true
             })
-            console.log(values)
+            console.log("hey i am in success")
         }
        
        
@@ -54,12 +55,16 @@ const onSubmit = event =>{
                         <div 
                         
                         className="form-group"
-                        onChange = {handleChange("name")}
+                        
                         >
                             <label className="text-light">
                                 Name
                             </label>
-                        <input className="form-control" type="text" />
+                        <input className="form-control" 
+                        onChange = {handleChange("firstName")}
+                        type="text"
+                        value={firstName}
+                        />
                         </div>
                         <div className="form-group">
                             <label className="text-light">
@@ -69,7 +74,9 @@ const onSubmit = event =>{
                            
                             className="form-control" 
                             onChange = {handleChange("email")}
-                            type="email" />
+                            type="email"
+                            value={email}
+                            />
                         </div>
                         <div className="form-group">
                             <label className="text-light">
@@ -78,8 +85,10 @@ const onSubmit = event =>{
                             <input 
                             
                             className="form-control" 
-                            onChange = {handleChange("password")}
-                            type="password" />
+                            onChange = {handleChange("encry_password")}
+                            type="password" 
+                            value={encry_password}
+                            />
                         </div>
                         <button 
                         onClick={onSubmit}
@@ -93,10 +102,44 @@ const onSubmit = event =>{
         )
 }
 
+
+const successMessage = () => {
+    return (
+      <div className="row">
+        <div className="col-md-6 offset-sm-3 text-left">
+          <div
+            className="alert alert-success"
+            style={{ display: success ? "" : "none" }}
+          >
+            New account was created successfully. Please{" "}
+            <Link to="/signin">Login Here</Link>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const errorMessage = () => {
+    return (
+      <div className="row">
+        <div className="col-md-6 offset-sm-3 text-left">
+          <div
+            className="alert alert-danger"
+            style={{ display: error ? "" : "none" }}
+          >
+            {error}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+
     return(
         <Base title="Signup Page" description="Hey Are u not registerd? Get Register now..">
        
-            
+            {successMessage()}
+            {errorMessage()}
             {signupform()}
             <p className="text-white text-center">{JSON.stringify(values)}</p>
         
