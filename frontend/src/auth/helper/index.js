@@ -11,12 +11,11 @@ export const signup = user => {
     },
     body: JSON.stringify(user)
   })
-  .then(res => res.text()) 
-  .then(text => console.log(text))
-    // .then(response => {
-    //   console.log(response.text())
-    //   return response.text();
-    // })
+  
+    .then(response => {
+      
+      return response.json();
+    })
     .catch(err => console.log(err));
 };
 
@@ -28,9 +27,11 @@ export const signin = user => {
       Accept: "application/json",
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(user)
+    body: JSON.stringify(user),
+   
   })
     .then(response => {
+      console.log(user)
       return response.json();
     })
     .catch(err => console.log(err));
