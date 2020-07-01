@@ -1,5 +1,5 @@
 const User = require("../models/user");
-const { check, validationResult } = require("express-validator");
+const { check, validationResult, clearCookie } = require("express-validator");
 var jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs')
 var expressJwt = require("express-jwt");
@@ -64,7 +64,7 @@ exports.signin = (req, res) => {
 };
 
 exports.signout = (req, res) => {
-  clearCookie("token")
+  res.clearCookie("token")
   res.json({
     message: "User signout"
   });
