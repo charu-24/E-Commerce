@@ -75,8 +75,8 @@ const Signin = () => {
                                 Password
                             </label>
                             <input className="form-control" 
-                            onChange={handleChange("email")}
-                            value={email}
+                            onChange={handleChange("encry_password")}
+                            value={encry_password}
                             type="password" />
                         </div>
                         <button 
@@ -119,7 +119,8 @@ const loadingMessage = () => {
 
     return(
         <Base title="Signin Page" description="Login user">
-       
+            {loadingMessage()}
+            {errorMessage()}
             {signinform()}
             {performRedirect()}
         

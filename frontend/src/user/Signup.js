@@ -25,12 +25,12 @@ const onSubmit = event =>{
     signup({firstName, email, encry_password})
    
     .then(data => {
-        if(data){
+        if(data.error){
             setValues({...values, error:data.error, success: false})
             console.log("in error")
         }
         else{
-            console.log(data)
+            console.log(values)
             setValues({
                 ...values,
                 firstName:"",
