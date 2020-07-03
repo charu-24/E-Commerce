@@ -15,6 +15,13 @@ exports.getCategoryById = (req, res, next, id) => {
 
 exports.createCategory = (req, res) =>{
     const category = new Category(req.body)
+    console.log("hey cate", category)
+    if (category.name==""){
+        console.log("i amin ifs part")
+        return res.status(400).json({
+            error:"Please Fill Up the field"
+        })
+    }
     category.save((err, category) =>{
         if(err){
             return res.status(400).json({
