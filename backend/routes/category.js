@@ -1,4 +1,6 @@
 const express = require("express")
+const { check, validationResult } = require("express-validator");
+const  {name} = require("../models/category")
 const router = express.Router() 
 
 
@@ -25,7 +27,7 @@ router.param("categoryId", getCategoryById)
 
 
 //actual routes
-router.post("/category/create/:userId",isSignedIn, isAuthenticated, isAdmin, createCategory )
+router.post("/category/create/:userId",  [check("name", "Please fill up the field").isLength({min:5})], isSignedIn, isAuthenticated, isAdmin, createCategory )
 router.get("/category/:categoryId", getCategory)
 router.get("/categories", getAllCategory)
 
