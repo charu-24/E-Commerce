@@ -36,8 +36,7 @@ const Signin = () => {
                 authenticate(data, () => {
                     setValues({
                         ...values,
-                        email:"",
-                        encry_password:"",
+                
                         didRedirect:true,
 
                     })
