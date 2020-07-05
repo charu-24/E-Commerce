@@ -28,10 +28,11 @@ export const signin = user => {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(user),
+    
    
   })
     .then(response => {
-      console.log(user)
+      console.log(response)
       return response.json();
     })
     .catch(err => console.log(err));
@@ -58,7 +59,7 @@ export const signout = next => {
 };
 
 export const isAutheticated = () => {
-  if (typeof window == "undefined") {
+  if (typeof Window === undefined) {
     return false;
   }
   if (localStorage.getItem("jwt")) {
