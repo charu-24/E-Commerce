@@ -30,6 +30,7 @@ const Signin = () => {
         signin({email,encry_password})
         .then(data => {
             if(data.error) {
+                console.log("hello")
                 setValues({...values, error:data.error, email:"",
                 encry_password:"",loading: false})
             }else{
