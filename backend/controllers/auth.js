@@ -13,9 +13,14 @@ exports.signup = (req, res) => {
     });
   }
 
-  const user = new User(req.body);
+  const { email } = req.body
+
+  User.findOne({email}, (err, user) => {
+    if(user==null){
+      const user = new User(req.body);
   user.save((err, user) => {
     if (err) {
+      console.log("i am also here")
       return res.status(400).json({
         err: "NOT able to save user in DB"
       });
@@ -26,6 +31,16 @@ exports.signup = (req, res) => {
       id: user._id
     });
   });
+    }
+    else{
+      console.log("i am here", user)
+      return res.status(400).json({
+        error:"user already exist"
+      })
+    }
+  })
+
+  
 };
 
 exports.signin = (req, res) => {
