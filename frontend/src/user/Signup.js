@@ -30,7 +30,7 @@ const onSubmit = event =>{
             console.log("in error")
         }
         else{
-            console.log(values)
+          
             setValues({
                 ...values,
                 firstName:"",
@@ -39,6 +39,7 @@ const onSubmit = event =>{
                 error:"",
                 success: true
             })
+            console.log(values)
             console.log("hey i am in success")
         }
        
