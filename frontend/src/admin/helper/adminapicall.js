@@ -51,6 +51,7 @@ export const createProduct =(userId, token,product) => {
 
 //get all products
 export const getAllProducts = () => {
+    
     return fetch(`${API}/products`, {
         method: "GET"
     })
