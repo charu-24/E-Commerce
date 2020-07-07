@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Base from '../core/Base'
 import { Link } from 'react-router-dom'
-import { getAllCategory } from './helper/adminapicall'
+
+import { getAllCategory, createProduct } from './helper/adminapicall'
 import { isAutheticated } from '../auth/helper'
-
-
 
 const AddProduct=() => {
 
@@ -25,17 +24,18 @@ const AddProduct=() => {
         
     })
 
-const { name, description, price, stock, categories,category,loading,error,getaRedirect,formData} = values
+const { name, description, price, stock, categories,category,createdProduct,loading,error,getaRedirect,formData} = values
 
     const preload =() =>{
         getAllCategory().then(data => {
-            console.log(data)
+            
             if(data.error) {
                 setValues({
                     ...values,
                 error: data.error
                 })
             }else{
+              
                 setValues({
                     ...values, 
                     categories: data,
@@ -50,18 +50,65 @@ const { name, description, price, stock, categories,category,loading,error,getaR
         preload()
     }, [])
 
-    const onSubmit =() => {
+    const onSubmit =event => {
+      event.preventDefault()
+      setValues({...values, error:"",loading:true})
+      createProduct(user._id, token,  formData)
+      .then(data =>{
+        if(data.error){
+          setValues({...values, error:data.error})
+        }
+        else{
+          
+          setValues({
+            ...values,
+            createdProduct:name,
+            name:"",
+            description:"",
+            price:"",
+            photo:"",
+            stock:"",
+            loading:false,
+            
+            
+          })
+          
 
+        }
+      })
     }
 
     const handleChange = name => event => {
-        const value = name ==="photo" ? event.target.file[0] : event.target.value;
+        const value = name ==="photo" ? event.target.files[0] : event.target.value;
         formData.set(name, value);
         setValues({
             ...values,
             [name] : value
         })
     }
+
+
+    //successs message
+    const successMessage =() =>(
+
+      <div className="alert alert-success mt-3" style={{display: createdProduct ? "" : "None"}}>
+      
+      <h4>{createdProduct} created successfully</h4>
+
+      
+      </div>
+    )
+
+    //error message
+    const errorMessage =() =>(
+
+      <div className="alert alert-warning mt-3" style={{display: error ? "" : "None"}}>
+      
+      <h4>{createdProduct} created successfully</h4>
+
+      
+      </div>
+    )
 
     //product form
     const createProductForm = () => (
@@ -121,7 +168,7 @@ const { name, description, price, stock, categories,category,loading,error,getaR
           </div>
           <div className="form-group">
             <input
-              onChange={handleChange("quantity")}
+              onChange={handleChange("stock")}
               type="number"
               className="form-control"
               placeholder="Quantity"
@@ -142,6 +189,8 @@ const { name, description, price, stock, categories,category,loading,error,getaR
            </Link>
            <div className="container bg-dark mx-1 ">
             <div className="col-md-6 offset-sm-3">
+            {successMessage()}
+            {errorMessage()}
             {createProductForm()}
             </div>
            </div>
