@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Base from '../core/Base'
 import { Link } from 'react-router-dom'
 import { isAutheticated } from '../auth/helper'
-import { getAllProducts } from "../admin/helper/adminapicall"
+import { getAllProduct } from "../admin/helper/adminapicall"
 
 const ManageProducts = () => {
 
@@ -13,12 +13,12 @@ const ManageProducts = () => {
     const { user, token } = isAutheticated()
 
     const preload = () =>{
-        getAllProducts().then(data => {
+        getAllProduct().then(data => {
             console.log(data)
             if(error) {
                 console.log(data.error)
             }else{
-                
+                console.log(data)
                 setProducts(data)
             }
         })
