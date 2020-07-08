@@ -50,8 +50,7 @@ export const createProduct =(userId, token,product) => {
 }
 
 //get all products
-export const getAllProducts = () => {
-    
+export const getAllProduct = () => {
     return fetch(`${API}/products`, {
         method: "GET"
     })
@@ -60,6 +59,7 @@ export const getAllProducts = () => {
     })
     .catch(err => console.log(err))
 }
+
 
 //delete a product
 export const deleteProduct =(productId, userId, token) =>{
