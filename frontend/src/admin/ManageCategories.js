@@ -9,6 +9,14 @@ const ManageCategories=() => {
         </Base>
     )
 }
+//needed to be erased again
+const ManageCategories=() => {
+    return (
+        <Base>
+            <h1 className="text-white">assignment</h1>
+        </Base>
+    )
+}
 
 
 export default ManageCategories
