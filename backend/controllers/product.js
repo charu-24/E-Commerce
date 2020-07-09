@@ -127,9 +127,7 @@ exports.deleteProduct = (req, res) => {
                 error: "Not able to Remove"
             })
         }  
-        res.json({
-            message: "deleted"
-        })
+        res.json(deletedProduct)
     })
 }
 
@@ -143,6 +141,7 @@ exports.getAllProduct = (req, res) =>{
     
     Product.find()
     .select("-photo")
+    .populate("category")
     .sort([[sortBy, "asc"]])
     .limit(limit)
     .exec((err, products) =>{
