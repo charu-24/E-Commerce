@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Base from '../core/Base'
 import { Link } from 'react-router-dom'
 import { isAutheticated } from '../auth/helper'
-import { getAllProduct } from "../admin/helper/adminapicall"
+import { getAllProduct, deleteProduct } from "../admin/helper/adminapicall"
 
 const ManageProducts = () => {
 
@@ -14,9 +14,9 @@ const ManageProducts = () => {
 
     const preload = () =>{
         getAllProduct().then(data => {
-            console.log(data)
-            if(error) {
-                console.log(data.error)
+            console.log("char")
+            if(data.error) {
+                setError(data.error)
             }else{
                 console.log(data)
                 setProducts(data)
@@ -27,6 +27,19 @@ const ManageProducts = () => {
     useEffect(() => {
         preload()
     }, [])
+
+    //delete product
+    const deleteThisProduct = (productId) => {
+      deleteProduct(productId, user._id, token).then(data =>{
+        
+        if(error){
+          console.log(data.error)
+        }else{
+          console.log(data)
+         setProducts(data)
+        }
+      })
+    }
 
     return (
         <Base title="Welcome admin" description="Manage products here">
@@ -41,7 +54,7 @@ const ManageProducts = () => {
          {products && products.map((product, index) =>(
             <div key={index} className="row text-center mb-2 ">
             <div className="col-4">
-              <h3 className="text-white text-left">I write code</h3>
+              <h3 className="text-white text-left">{product.name}</h3>
             </div>
             <div className="col-4">
               <Link
@@ -52,7 +65,9 @@ const ManageProducts = () => {
               </Link>
             </div>
             <div className="col-4">
-              <button onClick={() => {}} className="btn btn-danger">
+              <button onClick={() => {
+                deleteThisProduct(product._id)
+              }} className="btn btn-danger">
                 Delete
               </button>
             </div>
