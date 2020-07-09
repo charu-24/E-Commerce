@@ -22,25 +22,7 @@ const ManageProducts = () => {
                 setProducts(data)
             }
         })
-    }
-    //needed to be erased again
-     const [products, setProducts] = useState([])
-
-    const [error, setError] = useState()
-
-    const { user, token } = isAutheticated()
-
-    const preload = () =>{
-        getAllProduct().then(data => {
-            console.log(data)
-            if(error) {
-                console.log(data.error)
-            }else{
-                console.log(data)
-                setProducts(data)
-            }
-        })
-    }
+      }
 
     useEffect(() => {
         preload()
