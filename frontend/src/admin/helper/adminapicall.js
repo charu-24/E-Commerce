@@ -63,7 +63,8 @@ export const getAllProduct = () => {
 
 //delete a product
 export const deleteProduct =(productId, userId, token) =>{
-    return fetch(`{API}/product/${productId}/${userId}`, {
+    console.log(`${API}/product/${productId}/${userId}`)
+    return fetch(`${API}/product/${productId}/${userId}`, {
         method: "DELETE",
         headers:{
             Accept: "application/json",
@@ -73,16 +74,17 @@ export const deleteProduct =(productId, userId, token) =>{
 
     })
     .then(response => {
+        console.log("hey",response)
         return response.json()
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log("hey erry",err))
 }
 
 
 
 //get a product
 export const getProduct = productId =>{
-    return fetch(`{API}/product/${productId}`, {
+    return fetch(`${API}/product/${productId}`, {
         method: "GET"
     })
     .then(response => {
@@ -93,7 +95,7 @@ export const getProduct = productId =>{
 
 //update a product
 export const updateProduct = (productId, userId, token, product) =>{
-    return fetch(`{API}/product/${productId}/${userId}`, {
+    return fetch(`${API}/product/${productId}/${userId}`, {
         
         method: "POST",
         headers:{
