@@ -34,8 +34,8 @@ router.put('/product/:productId/:userId',isSignedIn, isAuthenticated, isAdmin, u
 router.delete('/product/:productId/:userId', isSignedIn, isAuthenticated, isAdmin, deleteProduct)
 
 //get all product
-router.get('/products',isSignedIn, isAuthenticated,
-isAdmin, getAllProduct)
+router.get('/products',
+ getAllProduct)
 
 
 //get distinct categories
