@@ -15,7 +15,7 @@ const ManageProducts = () => {
     const preload = () =>{
         getAllProduct().then(data => {
             console.log("char")
-            if(data.error) {
+            if(error) {
                 setError(data.error)
             }else{
                 console.log(data)
@@ -29,14 +29,14 @@ const ManageProducts = () => {
     }, [])
 
     //delete product
-    const deleteThisProduct = (productId) => {
+    const deleteThisProduct = productId => {
       deleteProduct(productId, user._id, token).then(data =>{
         
         if(error){
           console.log(data.error)
         }else{
           console.log(data)
-         setProducts(data)
+         preload()
         }
       })
     }
@@ -59,7 +59,7 @@ const ManageProducts = () => {
             <div className="col-4">
               <Link
                 className="btn btn-success"
-                to={`/admin/product/update/productId`}
+                to={`/admin/product/update/${product._id}`}
               >
                 <span className="">Update</span>
               </Link>
