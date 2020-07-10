@@ -4,7 +4,9 @@ const _ = require("lodash")
 const fs = require("fs")
 
 exports.getProductById = (req, res, next, id) => {
-    Product.findById(id).exec((err, product) => {
+    Product.findById(id)
+    .populate("category")
+    .exec((err, product) => {
         if(err){
             return res.status(400).json({
                 error: "Product not found"
@@ -120,6 +122,7 @@ exports.updateProduct = (req, res) =>{
 }
 
 exports.deleteProduct = (req, res) => {
+    console.log("hey i am in delete product")
     let product = req.product
     product.remove((err, deletedProduct) => {
         if(err){
@@ -127,13 +130,16 @@ exports.deleteProduct = (req, res) => {
                 error: "Not able to Remove"
             })
         }  
-        res.json(deletedProduct)
+        res.json({
+            meessage:"deltion was a success", deletedProduct
+        })
     })
 }
 
 
 //get all products
 exports.getAllProduct = (req, res) =>{
+    
     let limit = req.query.limit ? parseInt(req.query.limit) : 8
 
     let sortBy = req.query.sortBy ? req.query.sortBy : "_id"
