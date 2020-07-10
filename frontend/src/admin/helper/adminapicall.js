@@ -63,7 +63,7 @@ export const getAllProduct = () => {
 
 //delete a product
 export const deleteProduct =(productId, userId, token) =>{
-    console.log(`${API}/product/${productId}/${userId}`)
+    console.log(`${API}/product/${userId}`)
     return fetch(`${API}/product/${productId}/${userId}`, {
         method: "DELETE",
         headers:{
@@ -94,10 +94,11 @@ export const getProduct = productId =>{
 }
 
 //update a product
-export const updateProduct = (productId, userId, token, product) =>{
+export const updateProduct = (productId, userId, token, product) =>{    
+    console.log("in update")
     return fetch(`${API}/product/${productId}/${userId}`, {
         
-        method: "POST",
+        method: "PUT",
         headers:{
             Accept: "application/json",
            
