@@ -90,13 +90,13 @@ exports.updateProduct = (req, res) =>{
 
 
         //handle file
-        if(files.photo){
-            if(files.photo.size> 3000000){
+        if(file.photo){
+            if(file.photo.size> 3000000){
                 return res.status(400).json({
                     error: "File is too big!"
                 })
             }
-            product.photo.data = fs.readFileSync(files.photo.path);
+            product.photo.data = fs.readFileSync(file.photo.path);
             product.photo.contentType = files.photo.type;
         }
         
@@ -111,14 +111,14 @@ exports.updateProduct = (req, res) =>{
     })
     })
 
-    product.save((err, updateProduct) => {
-        if(err){
-            return res.status(400).json({
-                error: "Not able to save category in DB"
-            })
-        }  
-        res.json(updateProduct)
-    })
+    // product.save((err, updateProduct) => {
+    //     if(err){
+    //         return res.status(400).json({
+    //             error: "Not able to save category in DB"
+    //         })
+    //     }  
+    //     res.json(updateProduct)
+    // })
 }
 
 exports.deleteProduct = (req, res) => {
