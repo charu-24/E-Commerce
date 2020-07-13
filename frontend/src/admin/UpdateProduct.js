@@ -35,13 +35,13 @@ const { name, description, price, stock, categories,category,createdProduct,load
                 error: data.error
                 })
             }else{
-              
+                console.log(data)
                 setValues({
                     ...values, 
                     name:data.name,
                     description:data.description,
                     price:data.price,
-                    category:data.category._id,
+                    category:data.categoryt._id,
                     stock: data.stock,
                     formData: new FormData(),
                     
@@ -117,7 +117,7 @@ const { name, description, price, stock, categories,category,createdProduct,load
 
       <div className="alert alert-success mt-3" style={{display: createdProduct ? "" : "None"}}>
       
-      <h4>{createdProduct} created successfully</h4>
+      <h4>{createdProduct} updated successfully</h4>
 
       
       </div>
