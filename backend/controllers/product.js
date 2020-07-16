@@ -98,7 +98,7 @@ exports.updateProduct = (req, res) =>{
                 })
             }
             product.photo.data = fs.readFileSync(file.photo.path);
-            product.photo.contentType = files.photo.type;
+            product.photo.contentType = file.photo.type;
         }
         
         product.save((err, product) => {
