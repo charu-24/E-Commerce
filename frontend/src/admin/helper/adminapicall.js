@@ -84,6 +84,7 @@ export const deleteProduct =(productId, userId, token) =>{
 
 //get a product
 export const getProduct = productId =>{
+    
     return fetch(`${API}/product/${productId}`, {
         method: "GET"
     })
@@ -96,7 +97,7 @@ export const getProduct = productId =>{
 
 //update a product
 export const updateProduct = (productId, userId, token, product) =>{    
-    console.log("in update")
+    
     return fetch(`${API}/product/${productId}/${userId}`, {
         
         method: "PUT",
@@ -138,10 +139,10 @@ export const deleteCategory =(categoryId, userId, token) =>{
 //update categories
 export const updateThisCategory = (categoryId, userId, token, category) =>{
     return fetch(`${API}/category/${categoryId}/${userId}`, {
-        method: "POST",
+        method: "PUT",
         headers:{
             Accept: "application/json",
-            "Content-Type": "application/json",
+            
             Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(category)
