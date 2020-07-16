@@ -6,7 +6,7 @@ import { getAllCategory, getProduct, updateProduct } from './helper/adminapicall
 import { isAutheticated } from '../auth/helper'
 
 const UpdateProduct=({match}) => {
-
+    console.log(match.params.productId)
     const {user, token} = isAutheticated()
 
     const [values, setValues] = useState({
@@ -28,7 +28,7 @@ const { name, description, price, stock, categories,category,createdProduct,load
 
     const preload =(productId) =>{
         getProduct(productId).then(data => {
-            
+            console.log("hey",data)
             if(data.error) {
                 setValues({
                     ...values,
@@ -41,7 +41,7 @@ const { name, description, price, stock, categories,category,createdProduct,load
                     name:data.name,
                     description:data.description,
                     price:data.price,
-                    category:data.categoryt._id,
+                    category:data.category._id,
                     stock: data.stock,
                     formData: new FormData(),
                     
