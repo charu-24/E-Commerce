@@ -4,18 +4,20 @@ import { API } from "../backend"
 import Base from "../core/Base"
 import Card from './Card'
 import { loadCart } from "./helper/cartHelper";
+import StripeCheckout from "./StripeCheckout";
 
 
 
 const Cart=() => {
     console.log("API IS", API)
     const [products, setProducts] = useState([])
+    const [reload, setReload] = useState(false)
    
     useEffect(() => {
         setProducts(loadCart())
-    }, [])
+    }, [reload])
 
-    const loadAllProducts = () => {
+    const loadAllProducts = (products) => {
         return(
             <div>
                 <h2>This section is to load products</h2>
@@ -26,6 +28,8 @@ const Cart=() => {
                         product={product}
                         removeFromCart={true}
                         addToCart={false}
+                        setReload={setReload}
+                        reload={reload}
                     />
                     )
                 })}
@@ -36,7 +40,11 @@ const Cart=() => {
     const loadCheckout = () =>{
         return(
             <div>
-                <h2>This section is to checkout</h2>
+                <h2><StripeCheckout 
+                 products={products}
+                 setReload={setReload}
+                 reload={reload}
+                /></h2>
             </div>
         )
     }
@@ -45,8 +53,8 @@ const Cart=() => {
 
         <Base title="Cart page">
             <div className="row ">
-                <div className="col-md-6">{loadAllProducts()}</div>
-                <div className="col-md-6">{loadCheckout()}</div>
+                <div className="col-md-6 text-center">{products.length > 0} ? loadAllProducts() : (<h3>No Products Here</h3>)</div>
+                <div className="col-md-6 text-center">{loadCheckout()}</div>
                     
               
             </div>
