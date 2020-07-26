@@ -5,6 +5,7 @@ import Base from "../core/Base"
 import Card from './Card'
 import { loadCart } from "./helper/cartHelper";
 import StripeCheckout from "./StripeCheckout";
+import CartItem from "./CartItem";
 
 
 
@@ -23,7 +24,7 @@ const Cart=() => {
                 <h2>This section is to load products</h2>
                 {products.map((product, index) =>{
                     return(
-                        <Card 
+                        <CartItem
                         key={index}
                         product={product}
                         removeFromCart={true}
@@ -53,7 +54,7 @@ const Cart=() => {
 
         <Base title="Cart page">
             <div className="row ">
-                <div className="col-md-6 text-center">{products.length > 0} ? loadAllProducts() : (<h3>No Products Here</h3>)</div>
+                <div className="col-md-12 ">{products.length} &&{products.length > 0} ? ({loadAllProducts(products)} ):( {<h3>No Products Here</h3>})</div>
                 <div className="col-md-6 text-center">{loadCheckout()}</div>
                     
               
