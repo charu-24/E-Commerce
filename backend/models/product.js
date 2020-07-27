@@ -22,6 +22,10 @@ const productSchema = new mongoose.Schema({
         type: Number,
         
     },
+    count:{
+        type: Number,
+        default:1
+    },
     sold:{
         type: Number,
         default:0
