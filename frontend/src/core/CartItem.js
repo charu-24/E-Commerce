@@ -8,6 +8,8 @@ reload=undefined}) => {
     
         const [redirect, setRedirect] = useState(false)
 
+        const [count, setCount] = useState(product.count)
+
         const addToTheCart = () =>{
             addItemToCart(product, ()=>{
                 setRedirect(true)
@@ -19,7 +21,20 @@ reload=undefined}) => {
                 return <Redirect to="/cart" />
             }
         }
-
+        const increamentCount = () => {
+          console.log(product)
+          setCount(count+1)
+          product.count = count
+          console.log(product)
+        }
+        const decreamentCount = () =>{
+          if (count>1){
+          setCount(count-1)}
+          product.count=count
+        }
+        useEffect(() => {
+          increamentCount()
+      }, [])
 
         return (
           <div className="card text-white bg-dark  ">
@@ -42,7 +57,9 @@ reload=undefined}) => {
           <div className="col-md-2">
           <div className="card-header lead bg-success mt-1 text-center border border-success ">Quantity</div>
           <p className=" font-weight-normal text-wrap text-center mt-3  ">
-          <button className="btn btn-success btn-sm">+</button> 1 <button className="btn btn-danger btn-sm">-</button>
+          <button className="btn btn-success btn-sm" onClick={() => increamentCount()}>+</button> {product.count} <button className="btn btn-danger btn-sm" onClick={() =>{
+            decreamentCount()
+          }}>-</button>
             
           </p>
           </div>

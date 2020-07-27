@@ -21,7 +21,7 @@ const Cart=() => {
     const loadAllProducts = (products) => {
         return(
             <div>
-                <h2>This section is to load products</h2>
+                <h2 >Shpping Cart</h2>
                 {products.map((product, index) =>{
                     return(
                         <CartItem
@@ -54,9 +54,11 @@ const Cart=() => {
 
         <Base title="Cart page">
             <div className="row ">
-                <div className="col-md-12 ">{products.length} &&{products.length > 0} ? ({loadAllProducts(products)} ):( {<h3>No Products Here</h3>})</div>
-                <div className="col-md-6 text-center">{loadCheckout()}</div>
-                    
+                <div className="col-md-12 ">
+                    {
+                        products.length ? loadAllProducts(products):(<h3>No products here</h3>)
+                    }
+                </div>
               
             </div>
         </Base>
