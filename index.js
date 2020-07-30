@@ -6,7 +6,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-
+const path = require("path")
 
 //My routes
 const authRoutes = require("./routes/auth");
@@ -19,7 +19,7 @@ const paymentBRoutes = require("./routes/paymentB");
 
 //DB Connection
 mongoose
-  .connect(process.env.DATABASE, {
+  .connect(process.env.MONGODB_URI || process.env.DATABASE, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
@@ -43,8 +43,14 @@ app.use("/api", productRoutes);
 app.use("/api", orderRoutes);
 app.use("/api", paymentBRoutes);
 
+if(process.env.NODE_ENV === 'production'){
+  app.use(express.static( "frontend/build"))
 
+  app.get("*",(req,res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'))
 
+  } )
+}
 
 //PORT
 const port = process.env.PORT || 3000;
