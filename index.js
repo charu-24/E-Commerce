@@ -19,7 +19,7 @@ const paymentBRoutes = require("./routes/paymentB");
 
 //DB Connection
 mongoose
-  .connect(process.env.MONGODB_URI || process.env.DATABASE, {
+  .connect( process.env.DATABASE, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
@@ -56,6 +56,6 @@ if(process.env.NODE_ENV === 'production'){
 const port = process.env.PORT || 3000;
 
 //Starting a server
-app.listen(process.env.PORT || 3000, () => {
+app.listen(port, () => {
   console.log(`app is running at ${port}`);
 });
