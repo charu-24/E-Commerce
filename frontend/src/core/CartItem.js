@@ -14,7 +14,7 @@ reload=undefined}) => {
             addItemToCart(product, ()=>{
                 setRedirect(true)
             })
-        }
+}
 
         const getARedirect = (redirect) =>{
             if(redirect){
