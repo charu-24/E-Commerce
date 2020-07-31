@@ -57,7 +57,7 @@ userSchema
   });
 
 userSchema.methods = {
-  autheticate: function(plainpassword) {
+  authenticate: function(plainpassword) {
     console.log(this.salt)
     return this.securePassword(plainpassword) === this.encry_password;
   },

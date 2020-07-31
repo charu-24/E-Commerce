@@ -60,7 +60,7 @@ exports.signin = (req, res) => {
       });
     }
 
-    if (user.autheticate(encry_password)) {
+    if (user.authenticate(encry_password)) {
       console.log(encry_password)
       return res.status(401).json({
         error: "Email and password do not match"

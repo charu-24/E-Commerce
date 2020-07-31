@@ -19,7 +19,7 @@ const paymentBRoutes = require("./routes/paymentB");
 
 //DB Connection
 mongoose
-  .connect( process.env.DATABASE, {
+  .connect( process.env.ATLAS_URI || process.env.DATABASE, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
