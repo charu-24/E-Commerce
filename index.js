@@ -43,13 +43,13 @@ app.use("/api", productRoutes);
 app.use("/api", orderRoutes);
 app.use("/api", paymentBRoutes);
 
-if(process.env.NODE_ENV === 'production'){
-  app.use(express.static('client/build'))
+// if(process.env.NODE_ENV === 'production'){
+//   app.use(express.static('client/build'))
 
-  app.get('*',(req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
-  })
-}
+//   app.get('*',(req, res) => {
+//     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+//   })
+// }
 
 //PORT
 const port = process.env.PORT || 3000;
