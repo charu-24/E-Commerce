@@ -3,6 +3,7 @@ const { check, validationResult, clearCookie } = require("express-validator");
 var jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs')
 var expressJwt = require("express-jwt");
+const express = require('express')
 
 exports.signup = (req, res) => {
   const errors = validationResult(req);
@@ -18,19 +19,31 @@ exports.signup = (req, res) => {
   User.findOne({email}, (err, user) => {
     if(user==null){
       const user = new User(req.body);
-  user.save((err, user) => {
-    if (err) {
-      console.log("i am also here")
-      return res.status(400).json({
-        err: "NOT able to save user in DB"
-      });
-    }
-    res.json({
-      name: user.name,
-      email: user.email,
-      id: user._id
-    });
-  });
+      const password=user.encry_password
+
+      bcrypt.genSalt(10, (err,salt) => bcrypt.hash(user.encry_password, salt, (err, hash) =>{
+        if(err) throw err;
+        console.log(hash)
+        user.encry_password=hash;
+        console.log(user.encry_password)
+        user.save((err, user) => {
+            if (err) {
+              console.log("i am also here")
+              return res.status(400).json({
+                err: "NOT able to save user in DB"
+              });
+            }
+            res.json({
+              name: user.name,
+              email: user.email,
+              id: user._id
+            });
+          });
+         
+      }))
+
+      
+ 
     }
     else{
       console.log("i am here", user)
@@ -47,35 +60,57 @@ exports.signin = (req, res) => {
   const errors = validationResult(req);
   const { email, encry_password } = req.body;
 
+
+
   if (!errors.isEmpty()) {
     return res.status(422).json({
       error: errors.array()[0].msg
     });
   }
-
-  User.findOne({ email }, (err, user) => {
-    if (err) {
-      res.status(400).json({
-        error: "USER email does not exists"
-      });
+  User.findOne({email})
+  
+  .then(user => {
+    if(user.length<1){
+      return res.status(404).json({
+        message:"authentication failed"
+      })
     }
+    else{
+      bcrypt.compare(encry_password, user.encry_password, function(err, result){
+        if(err){
+          return res.status(404).json({
+            message:err
+          })
 
-    if (user.authenticate(encry_password)) {
-      console.log(encry_password)
-      return res.status(401).json({
-        error: "Email and password do not match"
-      });
-    }
-
-    //create token
-    const token = jwt.sign({ _id: user._id }, process.env.SECRET);
-    //put token in cookie
+        }
+        if(result){
+          const token = jwt.sign({ _id: user._id }, process.env.SECRET);
+             //put token in cookie
     res.cookie("token", token, { expire: new Date() + 9999 });
 
     //send response to front end
     const { _id, name, email, role } = user;
     return res.json({ token, user: { _id, name, email, role } });
-  });
+  }
+
+       
+          
+
+        
+        else{
+          return res.status(404).json({
+            message:"unmatched properties"
+          })
+        }
+      })
+    }
+  })
+  .catch((err)=>{
+    return res.status(404).json({
+      message:"auth failed"
+    })
+  })
+
 };
 
 exports.signout = (req, res) => {
