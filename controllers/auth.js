@@ -34,7 +34,7 @@ exports.signup = (req, res) => {
               });
             }
             res.json({
-              name: user.name,
+              firstName: user.fisrtName,
               email: user.email,
               id: user._id
             });
@@ -84,13 +84,15 @@ exports.signin = (req, res) => {
 
         }
         if(result){
+          console.log("from backend", user)
           const token = jwt.sign({ _id: user._id }, process.env.SECRET);
              //put token in cookie
     res.cookie("token", token, { expire: new Date() + 9999 });
 
     //send response to front end
-    const { _id, name, email, role } = user;
-    return res.json({ token, user: { _id, name, email, role } });
+    console.log("from backend", user)
+    const { _id, firstName, email, role } = user;
+    return res.json({ token, user: { _id, firstName, email, role } });
   }
 
        
